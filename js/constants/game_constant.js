@@ -36,8 +36,8 @@ rigData[8] = RigData(100000000000000, 30000000, 50000000000000,  0,          256
 
 rigData = [];
 
-rigData[0] = {price: 128,    eth:  0.001,     prod: 1,       upgrade: 64,   limit: 64};
-rigData[1] = {price: 1024,     eth:  0.002,      prod: 64,       upgrade: 512,   limit: 64};
+rigData[0] = {price: 128,    eth:  0,     prod: 1,       upgrade: 64,   limit: 64};
+rigData[1] = {price: 1024,     eth:  0,      prod: 64,       upgrade: 512,   limit: 64};
 rigData[2] = {price: 204800,    eth:  0.003,       prod: 1024,       upgrade: 102400,   limit: 128};
 rigData[3] = {price: 25600000,    eth:  0.004,       prod: 8192,       upgrade: 12800000,   limit: 128};
 rigData[4] = {price: 30000000000,   eth:  0.005,        prod: 65536,       upgrade: 30000000000,   limit: 256};
