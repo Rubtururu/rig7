@@ -114,46 +114,34 @@ function update_ico()
     }
 
 
-    let personal_pct = precisionRound(game.ico_personal_share/game.ico_data_pot*100,2);
-  
-    // Personal ICO
-    $('.ico_pot_yours').html('Your investment so far: '+precisionRound(web3.fromWei(game.ico_personal_share,'ether'),4)+'<i class="fab fa-ethereum"></i> ('+personal_pct+'%)');
+    let total_pot = game.ico_data_pot / 0.20; // Calcula el 100% del pot mayor
+let personal_pct = precisionRound(game.ico_personal_share / total_pot * 100, 2);
 
-}
+// Personal ICO
+$('.ico_pot_yours').html('Your investment so far: ' + precisionRound(web3.fromWei(game.ico_personal_share, 'ether'), 4) + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
 
-
-function personal_share ()
-{
-    let share =  (parseInt(game.sincedbalance)*10000) / parseInt(game.networkhodl);
-
+function personal_share() {
+    let share = (parseInt(game.sincedbalance) * 10000) / parseInt(game.networkhodl);
     share = parseInt(share);
+    share_pct = share / 100;
 
-    share_pct = share/100;
-
-    if(share_pct >= 0.01) 
-    return share_pct;
-    else
-    {
-    return "Less than 0.01";    
+    if (share_pct >= 0.01) {
+        return share_pct;
+    } else {
+        return "Less than 0.01";    
     }
 }
 
-function personal_share_eth(ico_unclaimed)
-{
-    ico_unclaimed = web3.fromWei(ico_unclaimed,'ether');
+function personal_share_eth(ico_unclaimed) {
+    ico_unclaimed = web3.fromWei(ico_unclaimed, 'ether');
 
-
-    if(ico_unclaimed>= 0.0001 )
-    {
-
-     return precisionRound(ico_unclaimed,4)+'<i class="fab fa-ethereum"></i>';
+    if (ico_unclaimed >= 0.0001) {
+        return precisionRound(ico_unclaimed, 4) + '<i class="fab fa-ethereum"></i>';
+    } else {
+        return 'Less than 0.0001 <i class="fab fa-ethereum"></i>';  
     }
-    else
-    {
-      return 'Less than 0.0001 <i class="fab fa-ethereum"></i>';  
-    }
-
 }
+
 
 
 
