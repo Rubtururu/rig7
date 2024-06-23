@@ -114,61 +114,47 @@ function update_ico()
     }
 
 
-    // Verificación de datos
-console.log('game.ico_data_pot:', game.ico_data_pot);
-console.log('game.ico_personal_share:', game.ico_personal_share);
-console.log('game.sincedbalance:', game.sincedbalance);
-console.log('game.networkhodl:', game.networkhodl);
+   let personal_pct = precisionRound(game.ico_personal_share/game.ico_data_pot*100,2);
 
-// Asegúrate de que la función precisionRound esté definida
-function precisionRound(number, precision) {
-    let factor = Math.pow(10, precision);
-    return Math.round(number * factor) / factor;
+javascript
+Copiar código
+// Personal ICO
+$('.ico_pot_yours').html('Your investment so far: '+precisionRound(web3.fromWei(game.ico_personal_share,'ether'),4)+'<i class="fab fa-ethereum"></i> ('+personal_pct+'%)');
 }
 
-// Calcula el 100% del pot mayor
-let total_pot = game.ico_data_pot / 0.20;
-console.log('total_pot:', total_pot);
+function personal_share ()
+{
+let share = (parseInt(game.sincedbalance)*10000) / parseInt(game.networkhodl);
 
-// Calcula el porcentaje personal basado en el 100% del pot mayor
-let personal_pct = precisionRound(game.ico_personal_share / total_pot * 100, 2);
-console.log('personal_pct:', personal_pct);
+kotlin
+Copiar código
+share = parseInt(share);
 
-// Convierte la participación personal de wei a ether y redondea
-let personal_share_ether = precisionRound(web3.fromWei(game.ico_personal_share, 'ether'), 4);
-console.log('personal_share_ether:', personal_share_ether);
+share_pct = share/100;
 
-// Actualiza la visualización de la inversión personal
-if ($('.ico_pot_yours').length > 0) {
-    $('.ico_pot_yours').html('Your investment so far: ' + personal_share_ether + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
-} else {
-    console.error('Element with class .ico_pot_yours not found');
+if(share_pct >= 0.01) 
+return share_pct;
+else
+{
+return "Less than 0.01";    
+}
 }
 
-function personal_share() {
-    let share = (parseInt(game.sincedbalance) * 10000) / parseInt(game.networkhodl);
-    console.log('share:', share);
-    share = parseInt(share);
-    console.log('share after parseInt:', share);
-    let share_pct = share / 100;
-    console.log('share_pct:', share_pct);
+function personal_share_eth(ico_unclaimed)
+{
+ico_unclaimed = web3.fromWei(ico_unclaimed,'ether');
 
-    if (share_pct >= 0.01) {
-        return share_pct;
-    } else {
-        return "Less than 0.01";    
-    }
+kotlin
+Copiar código
+if(ico_unclaimed>= 0.0001 )
+{
+
+ return precisionRound(ico_unclaimed,4)+'<i class="fab fa-ethereum"></i>';
 }
-
-function personal_share_eth(ico_unclaimed) {
-    ico_unclaimed = web3.fromWei(ico_unclaimed, 'ether');
-    console.log('ico_unclaimed:', ico_unclaimed);
-
-    if (ico_unclaimed >= 0.0001) {
-        return precisionRound(ico_unclaimed, 4) + '<i class="fab fa-ethereum"></i>';
-    } else {
-        return 'Less than 0.0001 <i class="fab fa-ethereum'></i>';  
-    }
+else
+{
+  return 'Less than 0.0001 <i class="fab fa-ethereum"></i>';  
+}
 }
 
 
