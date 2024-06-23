@@ -114,10 +114,10 @@ function update_ico()
     }
 
 
-    let personal_pct = precisionRound(game.ico_personal_share/game.ico_data_pot*10,2);
+    let personal_pct = precisionRound(game.ico_personal_share/game.ico_data_pot*100,2);
   
     // Personal ICO
-    $('.ico_pot_yours').html('Your investment so far: '+precisionRound(web3.fromWei(game.ico_personal_share,'ether'),4)+'<i class="fab fa-ethereum"></i> ('+personal_pct+'%)');
+    $('.ico_pot_yours').html('Your investment so far: '+precisionRound(web3.fromWei(game.ico_personal_share,'ether'),0.1)+'<i class="fab fa-ethereum"></i> ('+personal_pct+'%)');
 
 }
 
