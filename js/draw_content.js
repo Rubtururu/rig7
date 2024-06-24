@@ -92,12 +92,14 @@ function update_ico()
     $('.ico_pot').html(show_big_values(game.ico_data_fund)+" Token");
 
     // ETH invested
-    $('.ico_pot_eth').html('ICO pot equals: '+precisionRound(web3.fromWei(game.ico_data_pot,'ether'),4)+' <i class="fab fa-ethereum"></i>');
+    // Adjusted to reflect that the displayed ICO pot is 1% of the actual main pot
+    let ico_pot_eth = web3.fromWei(game.ico_data_pot, 'ether');
+    $('.ico_pot_eth').html('ICO pot equals: ' + precisionRound(ico_pot_eth, 4) + ' <i class="fab fa-ethereum"></i>');
 
     if(game.countdown_ico > 0)
     {
         $('.ico_countdown').html(countdown(game.countdown_ico));
-        if(game.prodPerSec>0)
+        if(game.prodPerSec > 0)
         {
             $('#debug_newico').hide();
             $('.ico-buy-button').show();
@@ -107,19 +109,22 @@ function update_ico()
     if(game.ico_personal_fund > 0)
         $('#ico_by_you').html(', '+show_big_values(game.ico_personal_fund)+' by you');
 
-    if(game.countdown_ico<=0 && game.prodPerSec>0)
+    if(game.countdown_ico <= 0 && game.prodPerSec > 0)
     {
         $('#debug_newico').show();
         $('.ico-buy-button').hide();
     }
 
-    // Calculate 1% of ico_personal_share
-    let one_percent_share = game.ico_personal_share * 0.05;
-    let personal_pct = precisionRound(one_percent_share/game.ico_data_pot*100, 2);
-
     // Personal ICO
-    $('.ico_pot_yours').html('Your investment so far: '+precisionRound(web3.fromWei(one_percent_share,'ether'),9)+'<i class="fab fa-ethereum"></i> ('+personal_pct+'%)');
+    let ico_personal_share = web3.fromWei(game.ico_personal_share, 'ether');
+
+    // Adjust the personal share to reflect the fact that ico_pot_eth is 1% of the main pot
+    let main_pot = ico_pot_eth * 100;
+    let personal_share_percentage = (ico_personal_share / main_pot) * 100;
+
+    $('.ico_pot_yours').html('Your investment so far: ' + precisionRound(ico_personal_share, 4) + ' <i class="fab fa-ethereum"></i> (' + precisionRound(personal_share_percentage, 2) + '%)');
 }
+
 
 
 
