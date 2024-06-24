@@ -113,12 +113,13 @@ function update_ico() {
 
     // Calculate the user's share based on the displayed pot (which is 1% of the total pot)
     let total_real_pot = game.ico_data_pot * 100; // The total pot in reality
-    let personal_share_displayed = game.ico_personal_share / total_real_pot * game.ico_data_pot;
+    let personal_share_displayed = game.ico_personal_share / 100; // User's share in the displayed pot
     let personal_pct = precisionRound(game.ico_personal_share / total_real_pot * 100, 2);
 
     // Personal ICO
-    $('.ico_pot_yours').html('Your investment so far: ' + precisionRound(web3.fromWei(personal_share_displayed, 'ether'),9) + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
+    $('.ico_pot_yours').html('Your investment so far: ' + precisionRound(web3.fromWei(personal_share_displayed, 'ether'), 4) + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
 }
+
 
 
 
