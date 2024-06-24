@@ -86,44 +86,40 @@ function update_dash_slow()
 }
 
 
-function update_ico()
-{
+function update_ico() {
     // Token invested
-    $('.ico_pot').html(show_big_values(game.ico_data_fund)+" Token");
+    $('.ico_pot').html(show_big_values(game.ico_data_fund) + " Token");
 
     // ETH invested
-    // Adjusted to reflect that the displayed ICO pot is 1% of the actual main pot
-    let ico_pot_eth = web3.fromWei(game.ico_data_pot, 'ether');
-    $('.ico_pot_eth').html('ICO pot equals: ' + precisionRound(ico_pot_eth, 4) + ' <i class="fab fa-ethereum"></i>');
+    let ico_pot_displayed = precisionRound(web3.fromWei(game.ico_data_pot, 'ether'), 4);
+    $('.ico_pot_eth').html('ICO pot equals: ' + ico_pot_displayed + ' <i class="fab fa-ethereum"></i>');
 
-    if(game.countdown_ico > 0)
-    {
+    if (game.countdown_ico > 0) {
         $('.ico_countdown').html(countdown(game.countdown_ico));
-        if(game.prodPerSec > 0)
-        {
+        if (game.prodPerSec > 0) {
             $('#debug_newico').hide();
             $('.ico-buy-button').show();
         }
     }
 
-    if(game.ico_personal_fund > 0)
-        $('#ico_by_you').html(', '+show_big_values(game.ico_personal_fund)+' by you');
+    if (game.ico_personal_fund > 0) {
+        $('#ico_by_you').html(', ' + show_big_values(game.ico_personal_fund) + ' by you');
+    }
 
-    if(game.countdown_ico <= 0 && game.prodPerSec > 0)
-    {
+    if (game.countdown_ico <= 0 && game.prodPerSec > 0) {
         $('#debug_newico').show();
         $('.ico-buy-button').hide();
     }
 
+    // Calculate the user's share based on the displayed pot (which is 1% of the total pot)
+    let total_real_pot = game.ico_data_pot * 100; // The total pot in reality
+    let personal_share_displayed = game.ico_personal_share / total_real_pot * game.ico_data_pot;
+    let personal_pct = precisionRound(game.ico_personal_share / total_real_pot * 100, 2);
+
     // Personal ICO
-    let ico_personal_share = web3.fromWei(game.ico_personal_share, 'ether');
-
-    // Adjust the personal share to reflect the fact that ico_pot_eth is 1% of the main pot
-    let main_pot = ico_pot_eth * 100;
-    let personal_share_percentage = (ico_personal_share / main_pot) * 100;
-
-    $('.ico_pot_yours').html('Your investment so far: ' + precisionRound(ico_personal_share, 4) + ' <i class="fab fa-ethereum"></i> (' + precisionRound(personal_share_percentage, 2) + '%)');
+    $('.ico_pot_yours').html('Your investment so far: ' + precisionRound(web3.fromWei(personal_share_displayed, 'ether'), 4) + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
 }
+
 
 
 
