@@ -118,13 +118,15 @@ function update_ico() {
     // Convert personal_share_real to ETH for display
     let personal_share_displayed = personal_share_real * game.ico_data_pot / total_real_pot;
 
-    // Calculate the percentage
-    let personal_pct = precisionRound((personal_share_real / game.ico_data_pot) * 100, 2);
+    // Cálculo del porcentaje personal para el 1% del fondo
+    let personal_pct = precisionRound((game.ico_personal_share / game.ico_data_pot) * 100, 2) / 20;
 
-    // Personal ICO
-    $('.ico_pot_yours').html('Your investment so far: ' + precisionRound(web3.fromWei(personal_share_displayed, 'ether'), 6) + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
+    // Inversión personal en ICO ajustada dividiendo por 20
+    let personal_investment = precisionRound(web3.fromWei(game.ico_personal_share, 'ether') / 20, 6);
+
+    // Mostrar la inversión personal con el porcentaje
+    $('.ico_pot_yours').html('Your investment so far: ' + personal_investment + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
 }
-
 
 
 
