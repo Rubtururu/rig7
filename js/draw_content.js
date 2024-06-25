@@ -87,12 +87,11 @@ function update_dash_slow()
 
 
 function update_ico() {
-    // Token invested
+    // Token invertido
     $('.ico_pot').html(show_big_values(game.ico_data_fund) + " Token");
 
-    // ETH invested
-    let ico_pot_displayed = web3.fromWei(game.ico_data_pot, 'ether'); // Pot displayed in ETH
-    $('.ico_pot_eth').html('ICO pot equals: ' + precisionRound(ico_pot_displayed, 4) + ' <i class="fab fa-ethereum"></i>');
+    // ETH invertido
+    $('.ico_pot_eth').html('ICO pot equals: ' + precisionRound(web3.fromWei(game.ico_data_pot, 'ether'), 4) + ' <i class="fab fa-ethereum"></i>');
 
     if (game.countdown_ico > 0) {
         $('.ico_countdown').html(countdown(game.countdown_ico));
@@ -111,19 +110,16 @@ function update_ico() {
         $('.ico-buy-button').hide();
     }
 
-    // Calculate the user's share based on the displayed pot (which is 1% of the total pot)
-    let total_real_pot = game.ico_data_pot * 100; // Total real ICO pot
-    let personal_share_real = game.ico_personal_share / 100; // User's real share in the ICO pot
+    // Cálculo del porcentaje personal para el 1% del fondo
+    let personal_pct = precisionRound((game.ico_personal_share / game.ico_data_pot) * 100, 2) / 20;
 
-    // Convert personal_share_real to ETH for display
-    let personal_share_displayed = personal_share_real * game.ico_data_pot / total_real_pot;
+    // Inversión personal en ICO ajustada dividiendo por 20
+    let personal_investment = precisionRound(web3.fromWei(game.ico_personal_share, 'ether') / 20, 6);
 
-    // Calculate the percentage
-    let personal_pct = precisionRound((personal_share_real / game.ico_data_pot) * 100, 2);
-
-    // Personal ICO
-    $('.ico_pot_yours').html('Your investment so far: ' + precisionRound(web3.fromWei(personal_share_displayed, 'ether'), 6) + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
+    // Mostrar la inversión personal con el porcentaje
+    $('.ico_pot_yours').html('Your investment so far: ' + personal_investment + '<i class="fab fa-ethereum"></i> (' + personal_pct + '%)');
 }
+
 
 
 
